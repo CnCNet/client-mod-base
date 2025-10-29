@@ -1,3 +1,9 @@
+# To be able use this workflow you must ensure that your repository have enable write and right access for GitHub Actions.
+#
+# GUI Reference to enable access:
+# Repository --> Actions --> General --> Workflow permissions --> Read and write permissions
+#                                                            \--> Allow Github Actions to create and approve pull requests
+
 name: Update XNA CnCNet Client
 
 on:
