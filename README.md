@@ -26,7 +26,11 @@ Credits
 - [Starkku](https://github.com/Starkku) - Client contributions, extended client updater, [VersionWriter](https://github.com/Starkku/VersionWriter), some client graphical assets, client configuration, documentation
 - [Kerbiter](https://github.com/Metadorius) - Client contributions, draft of the updater documentation, original player status indicator icons
 - [tomsons26](https://github.com/tomsons26) - Edited Yuri's Revenge UI assets originally for use with CnCNet Yuri's Revenge
-- [Sad Pencil](https://github.com/SadPencil) - QRes DPI awareness fix
+- [Sad Pencil](https://github.com/SadPencil) - QRes DPI awareness fix, add ar, jp, ru, tr, vi and partial kr, zh to SpriteFont
+- [mah_boi](https://github.com/MahBoiDeveloper) - Russian translation
+- [ApocalypseMO](https://github.com/ApocBruh) - Add ar, jp, ru, tr, vi and partial kr, zh to SpriteFont
+- [MantisMO](https://github.com/MantisMO) - Add ar, jp, ru, tr, vi and partial kr, zh to SpriteFont
+
 
 Screenshots
 -------
