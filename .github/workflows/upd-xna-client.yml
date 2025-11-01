@@ -166,5 +166,5 @@ jobs:
 
           # Open PR
           timeout /t 10 > nul
-          gh pr create -B main -H ${{ env.UPDATE_BRANCH_NAME }} --title '${{ env.PR_TITLE }} ${{ steps.download.outputs.tag_name }}' --body '${{ env.PR_BODY }}'
+          gh pr create -B main -H ${{ env.UPDATE_BRANCH_NAME }}-${{ steps.download.outputs.tag_name }} --title '${{ env.PR_TITLE }} ${{ steps.download.outputs.tag_name }}' --body '${{ env.PR_BODY }}'
         }
