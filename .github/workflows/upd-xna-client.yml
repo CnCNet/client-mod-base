@@ -41,7 +41,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         $repoDir = (Get-Location).Path
-        $currentVersion = (Get-Item -Path "$repoDir\Resources\clientdx.exe").VersionInfo.FileVersion -Replace "\.0$", ""
+        $clientDir = $repoDir + "\${{ env.CLIENT_PATH }}"
+        $currentVersion = (Get-Item -Path "$clientDir\Resources\clientdx.exe").VersionInfo.FileVersion -Replace "\.0$", ""
         $downloadVersion = '${{ steps.download.outputs.tag_name }}'
         
         echo "Current client version: '$currentVersion'"
@@ -64,16 +65,18 @@ jobs:
           git checkout -b ${{ env.UPDATE_BRANCH_NAME }}-${{ steps.download.outputs.tag_name }}
         
           # Delete old binaries, unpack archive, remove archive
-          rm -r -fo "$repoDir\Resources\Binaries"
-          rm -r -fo "$repoDir\Resources\BinariesNET8"
-          7z x xna-cncnet-client-*.7z -y
+          rm -r -fo "$clientDir\Resources\Binaries"
+          rm -r -fo "$clientDir\Resources\BinariesNET8"
+          7z x xna-cncnet-client-*.7z -y -oTEMPORARY
+          cp -r -fo "TEMPORARY\Resources\*" "$clientDir\Resources\"
+          rm -r -fo TEMPORARY
           rm xna-cncnet-client-*.7z
 
           # Commit changes
           git commit -am "${{ env.COMMIT_MESSAGE }}"
 
           # Path to the updateexec file
-          $updateExecPath = "$repoDir\${{ env.CLIENT_PATH }}\updateexec"
+          $updateExecPath = "$clientDir\updateexec"
 
           # Check if the updateexec file exists
           if (-Not (Test-Path -Path $updateExecPath))
