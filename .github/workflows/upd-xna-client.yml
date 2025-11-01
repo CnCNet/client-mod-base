@@ -17,7 +17,7 @@ env:
   UPDATE_BRANCH_NAME: update-client-binaries
   COMMIT_MESSAGE: Update client binaries to the latest version
   PR_TITLE: Update client binaries to the version
-  PR_BODY: This is an automatic pull request to update client binaries triggered from CnCNet/xna-cncnet-client repository.
+  PR_BODY: This is an automatic pull request to update client binaries to the latest release published in [CnCNet/xna-cncnet-client](https://github.com/CnCNet/xna-cncnet-client) repository.
 
 jobs:
   publish-update-pr:
