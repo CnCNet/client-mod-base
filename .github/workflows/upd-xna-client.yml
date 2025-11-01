@@ -60,8 +60,8 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           # Remove old branch if exist and make new one
-          git branch -D ${{ env.UPDATE_BRANCH_NAME }}
-          git checkout -b ${{ env.UPDATE_BRANCH_NAME }}
+          git branch -D ${{ env.UPDATE_BRANCH_NAME }}-${{ steps.download.outputs.tag_name }}
+          git checkout -b ${{ env.UPDATE_BRANCH_NAME }}-${{ steps.download.outputs.tag_name }}
         
           # Delete old binaries, unpack archive, remove archive
           rm -r -fo "D:\a\${{ env.REPO_NAME }}\${{ env.REPO_NAME }}\Resources\Binaries"
@@ -154,7 +154,7 @@ jobs:
           git commit --amend -am "${{ env.COMMIT_MESSAGE }}"
 
           # Push changes
-          git push --force origin ${{ env.UPDATE_BRANCH_NAME }}
+          git push --force origin ${{ env.UPDATE_BRANCH_NAME }}-${{ steps.download.outputs.tag_name }}
 
           # Open PR
           timeout /t 10 > nul
