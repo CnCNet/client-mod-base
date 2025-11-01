@@ -12,7 +12,6 @@ on:
   - cron: "0 0 * * *" # Starts everyday at 00:00 UTC+0
 
 env:
-  REPO_NAME: cncnet-client-mod-base
   CLIENT_PATH: ClientFiles # Do not add trailing slash
   UPDATE_BRANCH_NAME: update-client-binaries
   COMMIT_MESSAGE: Update client binaries to the latest version
@@ -41,7 +40,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        $currentVersion = (Get-Item -Path "D:\a\${{ env.REPO_NAME }}\${{ env.REPO_NAME }}\Resources\clientdx.exe").VersionInfo.FileVersion -Replace "\.0$", ""
+        $repoDir = (Get-Location).Path
+        $currentVersion = (Get-Item -Path "$repoDir\Resources\clientdx.exe").VersionInfo.FileVersion -Replace "\.0$", ""
         $downloadVersion = '${{ steps.download.outputs.tag_name }}'
         
         echo "Current client version: '$currentVersion'"
@@ -64,16 +64,16 @@ jobs:
           git checkout -b ${{ env.UPDATE_BRANCH_NAME }}-${{ steps.download.outputs.tag_name }}
         
           # Delete old binaries, unpack archive, remove archive
-          rm -r -fo "D:\a\${{ env.REPO_NAME }}\${{ env.REPO_NAME }}\Resources\Binaries"
-          rm -r -fo "D:\a\${{ env.REPO_NAME }}\${{ env.REPO_NAME }}\Resources\BinariesNET8"
-          7z x xna-cncnet-client-*.7z -y -oD:\a\${{ env.REPO_NAME }}\${{ env.REPO_NAME }}
+          rm -r -fo "$repoDir\Resources\Binaries"
+          rm -r -fo "$repoDir\Resources\BinariesNET8"
+          7z x xna-cncnet-client-*.7z -y
           rm xna-cncnet-client-*.7z
 
           # Commit changes
           git commit -am "${{ env.COMMIT_MESSAGE }}"
 
           # Path to the updateexec file
-          $updateExecPath = "D:\a\${{ env.REPO_NAME }}\${{ env.REPO_NAME }}\${{ env.CLIENT_PATH }}\updateexec"
+          $updateExecPath = "$repoDir\${{ env.CLIENT_PATH }}\updateexec"
 
           # Check if the updateexec file exists
           if (-Not (Test-Path -Path $updateExecPath))
