@@ -50,7 +50,8 @@ jobs:
         if ($currentVersion -eq $downloadVersion)
         {
           echo "Update is not required"
-        } else
+        }
+        else
         {
           echo "Update required"
           
