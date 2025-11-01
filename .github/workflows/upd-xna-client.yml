@@ -9,7 +9,7 @@ name: Update XNA CnCNet Client
 on:
   workflow_dispatch:
   schedule:
-  - cron: "0 0 * * *"
+  - cron: "0 0 * * *" # Starts everyday at 00:00 UTC+0
 
 env:
   REPO_NAME: cncnet-client-mod-base
