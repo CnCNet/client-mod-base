@@ -13,9 +13,9 @@ on:
 
 env:
   CLIENT_PATH: ClientFiles # Do not add trailing slash
-  UPDATE_BRANCH_NAME: update-client-binaries # Workflow in the end of the branch name adds release tag, i.e. update-client-binaries-2.12.13
+  UPDATE_BRANCH_NAME: update-client-binaries # The workflow adds the release tag after this value, i.e. "update-client-binaries-2.12.13"
   COMMIT_MESSAGE: Update client binaries to the latest version
-  PR_TITLE: Update client binaries to the version # Workflow in the end of the title adds release tag
+  PR_TITLE: Update client binaries to the version # The workflow adds the release tag after this value, i.e. "Update client binaries to the version 2.12.13"
   PR_BODY: This is an automatic pull request to update client binaries to the latest release published in [CnCNet/xna-cncnet-client](https://github.com/CnCNet/xna-cncnet-client) repository.
 
 jobs:
