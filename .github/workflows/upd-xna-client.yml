@@ -188,7 +188,7 @@ jobs:
               }
               catch
               {
-                echo "Server haven't index content yet. Attempting create PR again..."
+                echo "Server haven't indexed the content yet. Attempting to create a PR again..."
               }
             }
           }
