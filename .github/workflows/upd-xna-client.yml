@@ -175,21 +175,10 @@ jobs:
             # Push changes
             git push --force origin ${{ env.UPDATE_BRANCH_NAME }}-${{ steps.download.outputs.tag_name }}
 
-            # Open a PR
-            foreach ($timemout_attempt in 1..10)
-            {
-              # This timeout is for the remote server to index received content 
-              timeout /t 10 > nul
+            # This timeout is for the remote server to index received content 
+            timeout /t 100 > nul
 
-              try
-              {
-                gh pr create -B main -H ${{ env.UPDATE_BRANCH_NAME }}-${{ steps.download.outputs.tag_name }} --title '${{ env.PR_TITLE }} ${{ steps.download.outputs.tag_name }}' --body '${{ env.PR_BODY }}'
-                break
-              }
-              catch
-              {
-                echo "Server haven't indexed the content yet. Attempting to create a PR again..."
-              }
-            }
+            # Open a PR
+            gh pr create -B main -H ${{ env.UPDATE_BRANCH_NAME }}-${{ steps.download.outputs.tag_name }} --title '${{ env.PR_TITLE }} ${{ steps.download.outputs.tag_name }}' --body '${{ env.PR_BODY }}'
           }
         }
