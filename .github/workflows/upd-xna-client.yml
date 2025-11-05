@@ -186,6 +186,6 @@ jobs:
             } | Receive-Job -Wait -AutoRemoveJob
 
             # Open a PR
-            # gh pr create -B ${{ env.TARGET_BRANCH }} -H ${{ env.UPDATE_BRANCH_NAME }}-${{ steps.download.outputs.tag_name }} --title '${{ env.PR_TITLE }} ${{ steps.download.outputs.tag_name }}' --body '${{ env.PR_BODY }}'
+            gh pr create -B ${{ env.TARGET_BRANCH }} -H ${{ env.UPDATE_BRANCH_NAME }}-${{ steps.download.outputs.tag_name }} --title '${{ env.PR_TITLE }} ${{ steps.download.outputs.tag_name }}' --body '${{ env.PR_BODY }}'
           }
         }
