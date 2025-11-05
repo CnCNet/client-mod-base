@@ -176,7 +176,13 @@ jobs:
             git push --force origin ${{ env.UPDATE_BRANCH_NAME }}-${{ steps.download.outputs.tag_name }}
 
             # This timeout is for the remote server to index received content 
-            timeout /t 100
+            # https://stackoverflow.com/questions/74842935/powershell-batch-script-timeout-error-input-redirection-is-not-supported-exiti
+            Start-Job {
+              # Simulate calling a batch file (cmd /c)
+              # inside of which the `start` call is made,
+              # waiting for 5 seconds in this example.
+              cmd /c start /min timeout.exe 5
+            } | Receive-Job -Wait -AutoRemoveJob
 
             # Open a PR
             # gh pr create -B main -H ${{ env.UPDATE_BRANCH_NAME }}-${{ steps.download.outputs.tag_name }} --title '${{ env.PR_TITLE }} ${{ steps.download.outputs.tag_name }}' --body '${{ env.PR_BODY }}'
