@@ -36,7 +36,7 @@ jobs:
         latest: true
         fileName: xna-cncnet-client*
 
-    - name: Open PR
+    - name: Create Update Branch
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
@@ -179,6 +179,12 @@ jobs:
             timeout /t 100 > nul
 
             # Open a PR
-            gh pr create -B main -H ${{ env.UPDATE_BRANCH_NAME }}-${{ steps.download.outputs.tag_name }} --title '${{ env.PR_TITLE }} ${{ steps.download.outputs.tag_name }}' --body '${{ env.PR_BODY }}'
+            # gh pr create -B main -H ${{ env.UPDATE_BRANCH_NAME }}-${{ steps.download.outputs.tag_name }} --title '${{ env.PR_TITLE }} ${{ steps.download.outputs.tag_name }}' --body '${{ env.PR_BODY }}'
           }
         }
+    
+    - name: Open PR
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh pr create -B main -H ${{ env.UPDATE_BRANCH_NAME }}-${{ steps.download.outputs.tag_name }} --title '${{ env.PR_TITLE }} ${{ steps.download.outputs.tag_name }}' --body '${{ env.PR_BODY }}'
