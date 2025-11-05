@@ -14,6 +14,7 @@ on:
 env:
   CLIENT_PATH: ClientFiles # Do not add trailing slash
   UPDATE_BRANCH_NAME: update-client-binaries # The workflow adds the release tag after this value, i.e. "update-client-binaries-2.12.13"
+  TARGET_BRANCH: master # Into this branch workflow should create pull request for merge
   COMMIT_MESSAGE: Update client binaries to the latest version
   PR_TITLE: Update client binaries to the version # The workflow adds the release tag after this value, i.e. "Update client binaries to the version 2.12.13"
   PR_BODY: This is an automatic pull request to update client binaries to the latest release published in [CnCNet/xna-cncnet-client](https://github.com/CnCNet/xna-cncnet-client) repository.
@@ -36,7 +37,7 @@ jobs:
         latest: true
         fileName: xna-cncnet-client*
 
-    - name: Open PR
+    - name: Create Update Branch
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
@@ -176,9 +177,15 @@ jobs:
             git push --force origin ${{ env.UPDATE_BRANCH_NAME }}-${{ steps.download.outputs.tag_name }}
 
             # This timeout is for the remote server to index received content 
-            timeout /t 100 > nul
+            # https://stackoverflow.com/questions/74842935/powershell-batch-script-timeout-error-input-redirection-is-not-supported-exiti
+            Start-Job {
+              # Simulate calling a batch file (cmd /c)
+              # inside of which the `start` call is made,
+              # waiting for 5 seconds in this example.
+              cmd /c start /min timeout.exe 10
+            } | Receive-Job -Wait -AutoRemoveJob
 
             # Open a PR
-            gh pr create -B main -H ${{ env.UPDATE_BRANCH_NAME }}-${{ steps.download.outputs.tag_name }} --title '${{ env.PR_TITLE }} ${{ steps.download.outputs.tag_name }}' --body '${{ env.PR_BODY }}'
+            gh pr create -B ${{ env.TARGET_BRANCH }} -H ${{ env.UPDATE_BRANCH_NAME }}-${{ steps.download.outputs.tag_name }} --title '${{ env.PR_TITLE }} ${{ steps.download.outputs.tag_name }}' --body '${{ env.PR_BODY }}'
           }
         }
